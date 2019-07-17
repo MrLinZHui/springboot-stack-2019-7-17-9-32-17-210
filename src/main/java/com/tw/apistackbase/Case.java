@@ -12,6 +12,9 @@ public class Case {
 
     private String caseName;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "caseSInfoId",referencedColumnName = "caseSpecificInformationId")
+    private CaseSpecificInformation caseSpecificInformation;
     public Case() {
     }
 
@@ -46,5 +49,19 @@ public class Case {
 
     public void setCaseName(String caseName) {
         this.caseName = caseName;
+    }
+
+    public CaseSpecificInformation getCaseSpecificInformation() {
+        return caseSpecificInformation;
+    }
+
+    public void setCaseSpecificInformation(CaseSpecificInformation caseSpecificInformation) {
+        this.caseSpecificInformation = caseSpecificInformation;
+    }
+
+    public Case(long caseTime, String caseName, CaseSpecificInformation caseSpecificInformation) {
+        this.caseTime = caseTime;
+        this.caseName = caseName;
+        this.caseSpecificInformation = caseSpecificInformation;
     }
 }

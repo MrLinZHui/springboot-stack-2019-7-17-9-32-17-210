@@ -1,6 +1,7 @@
 package com.tw.apistackbase;
 
 import com.tw.apistackbase.repository.CaseRepository;
+import com.tw.apistackbase.repository.CaseSpecificInformationRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +16,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -22,6 +25,9 @@ public class ApiStackBaseApplicationTests {
 
 	@Autowired
 	CaseRepository caseRepository;
+
+	@Autowired
+	CaseSpecificInformationRepository caseSpecificInformationRepository;
 	@Test
 	public void shoule_save_a_case_when_give_a_case(){
 		//given
@@ -35,7 +41,10 @@ public class ApiStackBaseApplicationTests {
 	@Test
 	public void shoule_return_a_case_when_give_a_id(){
 		//given
-		Case case1 = new Case("case1",1970010111);
+		CaseSpecificInformation caseSpecificInformation =
+				new CaseSpecificInformation("subjec1","object1");
+
+		Case case1 = new Case(1970010111,"case1",caseSpecificInformation);
 		caseRepository.saveAndFlush(case1);
 		//when
 		Case case2 = caseRepository.findById(1).get();
@@ -43,6 +52,8 @@ public class ApiStackBaseApplicationTests {
 		Assertions.assertEquals(1,case2.getCaseId());
 		Assertions.assertEquals("case1",case2.getCaseName());
 		Assertions.assertEquals(1970010111,case2.getCaseTime());
+		Assertions.assertEquals("subjec1",case2.getCaseSpecificInformation().getSubjectiveRequirement());
+		Assertions.assertEquals("object1",case2.getCaseSpecificInformation().getObjectiveRequirement());
 		//Assertions.assertThrows(Exception.class,()->caseRepository.findAll());
 	}
 	@Test
@@ -64,7 +75,7 @@ public class ApiStackBaseApplicationTests {
 		Case case1 = new Case("case1",1970010111);
 		Case case2 = new Case("case1",1990010111);
 		Case case3 = new Case("case2",1980010111);
-		caseRepository.saveAll(Arrays.asList(case1,case2,case3));
+		caseRepository.saveAll(asList(case1,case2,case3));
 		//when
 		List<Case> caseList = caseRepository.findCasesByCaseName("case1");
 		//then
@@ -76,7 +87,7 @@ public class ApiStackBaseApplicationTests {
 		Case case1 = new Case("case1",1970010111);
 		Case case2 = new Case("case2",1990010111);
 		Case case3 = new Case("case3",1980010111);
-		caseRepository.saveAll(Arrays.asList(case1,case2,case3));
+		caseRepository.saveAll(asList(case1,case2,case3));
 		//when
 		caseRepository.deleteById(3);
 		List<Case> caseList =caseRepository.findAll();
@@ -85,6 +96,35 @@ public class ApiStackBaseApplicationTests {
 		Assertions.assertEquals("case1",caseList.get(0).getCaseName());
 		Assertions.assertEquals("case2",caseList.get(1).getCaseName());
 	}
+	@Test
+	public void shoule_return_casespecificinformation_when_give_a_id(){
+		//given
+		CaseSpecificInformation caseSpecificInformation =
+				new CaseSpecificInformation("subjec1","object1");
+		CaseSpecificInformation caseSpecificInformation1 =
+				new CaseSpecificInformation("subject2","object2");
+		CaseSpecificInformation caseSpecificInformation2 =
+				new CaseSpecificInformation("subject3","");
+		caseSpecificInformationRepository.saveAll(asList(caseSpecificInformation,caseSpecificInformation1,caseSpecificInformation2));
+		//when
+		CaseSpecificInformation caseSpecificInformation3 = caseSpecificInformationRepository.findById(2).get();
+				//then
+		Assertions.assertEquals("subject2",caseSpecificInformation3.getSubjectiveRequirement());
+		Assertions.assertEquals("object2",caseSpecificInformation3.getObjectiveRequirement());
+	}
+//	@Test
+//	public void shoule_return_case_when_give_a_id(){
+//		//given
+//		CaseSpecificInformation caseSpecificInformation =
+//				new CaseSpecificInformation("subjec1","object1");
+//		Case case1 = new Case(1980010111, "case3",new CaseSpecificInformation("subjec1","object1"));
+//		caseRepository.saveAndFlush(case1);
+//		//when
+//		CaseSpecificInformation caseSpecificInformation3 = caseSpecificInformationRepository.findById(2).get();
+//				//then
+//		Assertions.assertEquals("subject2",caseSpecificInformation3.getSubjectiveRequirement());
+//		Assertions.assertEquals("object2",caseSpecificInformation3.getObjectiveRequirement());
+//	}
 	@Test
 	public void contextLoads() {
 		
