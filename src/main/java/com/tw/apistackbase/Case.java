@@ -7,14 +7,21 @@ public class Case {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int caseId;
+
     @Column(name = "caseTime",nullable = false)
     private long caseTime;
+
     @Column(name = "caseName",length = 255,nullable = false)
     private String caseName;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "caseSInfoId",referencedColumnName = "caseSpecificInformationId")
     private CaseSpecificInformation caseSpecificInformation;
+
+    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private Procuratorate procuratorate;
+
     public Case() {
     }
 
@@ -63,9 +70,18 @@ public class Case {
         this.caseSpecificInformation = caseSpecificInformation;
     }
 
-    public Case(long caseTime, String caseName, CaseSpecificInformation caseSpecificInformation) {
+    public Procuratorate getProcuratorate() {
+        return procuratorate;
+    }
+
+    public void setProcuratorate(Procuratorate procuratorate) {
+        this.procuratorate = procuratorate;
+    }
+
+    public Case(long caseTime, String caseName, CaseSpecificInformation caseSpecificInformation, Procuratorate procuratorate) {
         this.caseTime = caseTime;
         this.caseName = caseName;
         this.caseSpecificInformation = caseSpecificInformation;
+        this.procuratorate = procuratorate;
     }
 }
