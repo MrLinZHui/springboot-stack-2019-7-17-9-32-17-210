@@ -2,6 +2,8 @@ package com.tw.apistackbase;
 
 import com.tw.apistackbase.repository.CaseRepository;
 import com.tw.apistackbase.repository.CaseSpecificInformationRepository;
+import com.tw.apistackbase.repository.ProcuratorateRepository;
+import org.h2.jdbc.JdbcSQLException;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,16 +30,20 @@ public class ApiStackBaseApplicationTests {
 
 	@Autowired
 	CaseSpecificInformationRepository caseSpecificInformationRepository;
-	@Test
-	public void shoule_save_a_case_when_give_a_case(){
-		//given
-		Case case1 = new Case("",0L);
-		//when
-		caseRepository.save(case1);
-		//when+then
-		Assertions.assertThrows(Exception.class,()->caseRepository.findAll());
 
-	}
+	@Autowired
+	ProcuratorateRepository procuratorateRepository;
+	//todo
+//	@Test
+//	public void shoule_save_a_case_when_give_a_case(){
+//		//given
+//		Case case1 = new Case("",0L);
+//		//when
+//		caseRepository.save(case1);
+//		//when+then
+//		Assertions.assertThrows(Exception.class,()->caseRepository.findAll());
+//
+//	}
 	@Test
 	public void shoule_return_a_case_when_give_a_id(){
 		//given
@@ -76,9 +82,11 @@ public class ApiStackBaseApplicationTests {
 	@Test
 	public void shoule_return_all_casse_when_give_a_name(){
 		//given
-		Case case1 = new Case("case1",1970010111);
-		Case case2 = new Case("case1",1990010111);
-		Case case3 = new Case("case2",1980010111);
+		CaseSpecificInformation caseSpecificInformation =
+				new CaseSpecificInformation("subjec1","object1");
+		Case case1 = new Case(1970010111,"case1",caseSpecificInformation);
+		Case case2 = new Case(1990010111,"case1",caseSpecificInformation);
+		Case case3 = new Case(1980010111,"case2",caseSpecificInformation);
 		caseRepository.saveAll(asList(case1,case2,case3));
 		//when
 		List<Case> caseList = caseRepository.findCasesByCaseName("case1");
@@ -116,19 +124,24 @@ public class ApiStackBaseApplicationTests {
 		Assertions.assertEquals("subject2",caseSpecificInformation3.getSubjectiveRequirement());
 		Assertions.assertEquals("object2",caseSpecificInformation3.getObjectiveRequirement());
 	}
-//	@Test
-//	public void shoule_return_case_when_give_a_id(){
-//		//given
-//		CaseSpecificInformation caseSpecificInformation =
-//				new CaseSpecificInformation("subjec1","object1");
-//		Case case1 = new Case(1980010111, "case3",new CaseSpecificInformation("subjec1","object1"));
-//		caseRepository.saveAndFlush(case1);
-//		//when
-//		CaseSpecificInformation caseSpecificInformation3 = caseSpecificInformationRepository.findById(2).get();
-//				//then
-//		Assertions.assertEquals("subject2",caseSpecificInformation3.getSubjectiveRequirement());
-//		Assertions.assertEquals("object2",caseSpecificInformation3.getObjectiveRequirement());
-//	}
+	//todo
+	@Test
+	public void should_throws_Exception_when_ProcuratorateName_is_repeat(){
+		//given
+		Procuratorate procuratorate = new Procuratorate("GuangDong");
+		Procuratorate procuratorate1 = new Procuratorate("GuangDong");
+		procuratorateRepository.saveAll(Arrays.asList(procuratorate,procuratorate1));
+		//when+then
+		Assertions.assertThrows(Exception.class,()->procuratorateRepository.findAll());
+	}
+ 	@Test
+	public void should_throws_Exception_when_ProcuratorateName_is_too_long(){
+		//given
+		Procuratorate procuratorate = new Procuratorate("DongGuangDongGuangDongGuangDongDongGuangDongGuangDongGuangDong");
+		//procuratorateRepository.save(procuratorate);
+		//when+then
+		Assertions.assertThrows(Exception.class,()->procuratorateRepository.save(procuratorate));
+	}
 	@Test
 	public void contextLoads() {
 		
