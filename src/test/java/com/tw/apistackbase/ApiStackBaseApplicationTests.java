@@ -202,4 +202,17 @@ public class ApiStackBaseApplicationTests {
 		// then
 		Assertions.assertEquals("Tomi",procuratorate1.getProsecutorName());
 	}
+	@Test
+	public void should_return_procurators_when_get_All(){
+		//given
+		Prosecutor prosecutor = new Prosecutor("Tomi");
+		Prosecutor prosecutor1 = new Prosecutor("Lance");
+		Procuratorate procuratorate = new Procuratorate("ZhuHai",Arrays.asList(prosecutor,prosecutor1));
+
+		procuratorateRepository.save(procuratorate);
+		//when
+		Procuratorate procuratorate1 = procuratorateRepository.findAll().get(0);
+		// then
+		Assertions.assertEquals(2,procuratorate1.getProsecutors().size());
+	}
 }
