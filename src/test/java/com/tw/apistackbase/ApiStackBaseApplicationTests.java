@@ -59,8 +59,12 @@ public class ApiStackBaseApplicationTests {
 	@Test
 	public void shoule_return_all_casse_when_check_all_case(){
 		//given
-		Case case1 = new Case("case1",1970010111);
-		Case case3 = new Case("case2",1980010111);
+		CaseSpecificInformation caseSpecificInformation =
+				new CaseSpecificInformation("subjec1","object1");
+		CaseSpecificInformation caseSpecificInformation1 =
+				new CaseSpecificInformation("subjec2","object2");
+		Case case1 = new Case(1970010111,"case1",caseSpecificInformation);
+		Case case3 = new Case(1980010111,"case2",caseSpecificInformation1);
 		caseRepository.saveAndFlush(case1);
 		caseRepository.saveAndFlush(case3);
 		//when
