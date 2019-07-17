@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface CaseRepository extends JpaRepository<Case,Integer> {
     List<Case> findByOrderByCaseTimeDesc();
+
+    List<Case> findCasesByCaseName(String caseName);
 }

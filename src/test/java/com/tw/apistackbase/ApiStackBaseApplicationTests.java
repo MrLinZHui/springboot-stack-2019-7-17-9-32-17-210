@@ -12,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -56,6 +57,18 @@ public class ApiStackBaseApplicationTests {
 		//then
 		Assertions.assertEquals(1980010111,caseList.get(0).getCaseTime());
 		Assertions.assertEquals(1970010111,caseList.get(1).getCaseTime());
+	}
+	@Test
+	public void shoule_return_all_casse_when_give_a_name(){
+		//given
+		Case case1 = new Case("case1",1970010111);
+		Case case2 = new Case("case1",1990010111);
+		Case case3 = new Case("case2",1980010111);
+		caseRepository.saveAll(Arrays.asList(case1,case2,case3));
+		//when
+		List<Case> caseList = caseRepository.findCasesByCaseName("case1");
+		//then
+		Assertions.assertEquals(2,caseList.size());
 	}
 	@Test
 	public void contextLoads() {
