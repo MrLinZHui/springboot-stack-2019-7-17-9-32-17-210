@@ -8,16 +8,16 @@ public class Case {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int caseId;
 
-    private long castTime;
+    private long caseTime;
 
     private String caseName;
 
     public Case() {
     }
 
-    public Case(String caseName, long castTime) {
+    public Case(String caseName, long caseTime) {
         this.caseName = caseName;
-        this.castTime = castTime;
+        this.caseTime = caseTime;
     }
 
     public Case(String caseName) {
@@ -31,13 +31,13 @@ public class Case {
     public void setCaseId(int caseId) {
         this.caseId = caseId;
     }
-    @Column(name = "castTime",nullable = false)
-    public long getCastTime() {
-        return castTime;
+    @Column(name = "caseTime",nullable = false)
+    public long getCaseTime() {
+        return caseTime;
     }
 
-    public void setCastTime(long castTime) {
-        this.castTime = castTime;
+    public void setCaseTime(long caseTime) {
+        this.caseTime = caseTime;
     }
     @Column(name = "caseName",length = 255,nullable = false)
     public String getCaseName() {

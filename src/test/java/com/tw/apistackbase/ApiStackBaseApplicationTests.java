@@ -41,10 +41,22 @@ public class ApiStackBaseApplicationTests {
 		//then
 		Assertions.assertEquals(1,case2.getCaseId());
 		Assertions.assertEquals("case1",case2.getCaseName());
-		Assertions.assertEquals(1970010111,case2.getCastTime());
+		Assertions.assertEquals(1970010111,case2.getCaseTime());
 		//Assertions.assertThrows(Exception.class,()->caseRepository.findAll());
 	}
-
+	@Test
+	public void shoule_return_all_casse_when_check_all_case(){
+		//given
+		Case case1 = new Case("case1",1970010111);
+		Case case3 = new Case("case2",1980010111);
+		caseRepository.saveAndFlush(case1);
+		caseRepository.saveAndFlush(case3);
+		//when
+		List<Case> caseList = caseRepository.findByOrderByCaseTimeDesc();
+		//then
+		Assertions.assertEquals(1980010111,caseList.get(0).getCaseTime());
+		Assertions.assertEquals(1970010111,caseList.get(1).getCaseTime());
+	}
 	@Test
 	public void contextLoads() {
 		
