@@ -195,11 +195,11 @@ public class ApiStackBaseApplicationTests {
 	@Test
 	public void should_return_a_procurator_when_give_a_id(){
 		//given
-		Procuratorate procuratorate = new Procuratorate("DongGuang4");
-		procuratorateRepository.save(procuratorate);
+		Prosecutor prosecutor = new Prosecutor("Tomi");
+		prosecutorRepository.save(prosecutor);
 		//when
-		Procuratorate procuratorate1 = procuratorateRepository.findById(1).get();
+		Prosecutor procuratorate1 = prosecutorRepository.findById(1).get();
 		// then
-		Assertions.assertEquals("DongGuang4",procuratorate1.getProcuratorateName());
+		Assertions.assertEquals("Tomi",procuratorate1.getProsecutorName());
 	}
 }
