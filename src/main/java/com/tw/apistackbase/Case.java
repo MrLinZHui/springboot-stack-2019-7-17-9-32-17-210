@@ -7,9 +7,9 @@ public class Case {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int caseId;
-
+    @Column(name = "caseTime",nullable = false)
     private long caseTime;
-
+    @Column(name = "caseName",length = 255,nullable = false)
     private String caseName;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -27,6 +27,10 @@ public class Case {
         this.caseName = caseName;
     }
 
+    public Case(long caseTime) {
+        this.caseTime = caseTime;
+    }
+
     public int getCaseId() {
         return caseId;
     }
@@ -34,7 +38,7 @@ public class Case {
     public void setCaseId(int caseId) {
         this.caseId = caseId;
     }
-    @Column(name = "caseTime",nullable = false)
+
     public long getCaseTime() {
         return caseTime;
     }
@@ -42,7 +46,7 @@ public class Case {
     public void setCaseTime(long caseTime) {
         this.caseTime = caseTime;
     }
-    @Column(name = "caseName",length = 255,nullable = false)
+
     public String getCaseName() {
         return caseName;
     }

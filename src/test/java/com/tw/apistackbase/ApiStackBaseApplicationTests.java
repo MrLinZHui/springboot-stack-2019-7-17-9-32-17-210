@@ -34,16 +34,15 @@ public class ApiStackBaseApplicationTests {
 	@Autowired
 	ProcuratorateRepository procuratorateRepository;
 	//todo
-//	@Test
-//	public void shoule_save_a_case_when_give_a_case(){
-//		//given
-//		Case case1 = new Case("",0L);
-//		//when
-//		caseRepository.save(case1);
-//		//when+then
-//		Assertions.assertThrows(Exception.class,()->caseRepository.findAll());
-//
-//	}
+	@Test
+	public void shoule_save_a_case_when_give_a_case(){
+		//given
+		Case case1 = new Case(null,1970010111);
+		//when
+		//when+then
+		Assertions.assertThrows(Exception.class,()->caseRepository.save(case1));
+
+	}
 	@Test
 	public void shoule_return_a_case_when_give_a_id(){
 		//given
@@ -130,9 +129,8 @@ public class ApiStackBaseApplicationTests {
 		//given
 		Procuratorate procuratorate = new Procuratorate("GuangDong");
 		Procuratorate procuratorate1 = new Procuratorate("GuangDong");
-		procuratorateRepository.saveAll(Arrays.asList(procuratorate,procuratorate1));
 		//when+then
-		Assertions.assertThrows(Exception.class,()->procuratorateRepository.findAll());
+		Assertions.assertThrows(Exception.class,()->procuratorateRepository.saveAll(Arrays.asList(procuratorate,procuratorate1)));
 	}
  	@Test
 	public void should_throws_Exception_when_ProcuratorateName_is_too_long(){
