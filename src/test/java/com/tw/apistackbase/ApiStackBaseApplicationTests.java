@@ -71,6 +71,21 @@ public class ApiStackBaseApplicationTests {
 		Assertions.assertEquals(2,caseList.size());
 	}
 	@Test
+	public void shoule_delete_casse_when_give_a_id(){
+		//given
+		Case case1 = new Case("case1",1970010111);
+		Case case2 = new Case("case2",1990010111);
+		Case case3 = new Case("case3",1980010111);
+		caseRepository.saveAll(Arrays.asList(case1,case2,case3));
+		//when
+		caseRepository.deleteById(3);
+		List<Case> caseList =caseRepository.findAll();
+				//then
+		Assertions.assertEquals(2,caseList.size());
+		Assertions.assertEquals("case1",caseList.get(0).getCaseName());
+		Assertions.assertEquals("case2",caseList.get(1).getCaseName());
+	}
+	@Test
 	public void contextLoads() {
 		
 	}
