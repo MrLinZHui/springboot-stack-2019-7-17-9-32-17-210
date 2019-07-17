@@ -132,6 +132,13 @@ public class ApiStackBaseApplicationTests {
 		//when+then
 		Assertions.assertThrows(Exception.class,()->procuratorateRepository.saveAll(Arrays.asList(procuratorate,procuratorate1)));
 	}
+	@Test
+	public void should_throws_Exception_when_ProcuratorateName_is_null(){
+		//given
+		Procuratorate procuratorate = new Procuratorate(null);
+		//when+then
+		Assertions.assertThrows(Exception.class,()->procuratorateRepository.save(procuratorate));
+	}
  	@Test
 	public void should_throws_Exception_when_ProcuratorateName_is_too_long(){
 		//given
