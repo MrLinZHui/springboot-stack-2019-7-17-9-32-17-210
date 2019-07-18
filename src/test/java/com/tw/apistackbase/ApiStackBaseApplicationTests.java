@@ -181,7 +181,6 @@ public class ApiStackBaseApplicationTests {
 	public void should_throws_Exception_when_ProcuratorateName_is_too_long(){
 		//given
 		Procuratorate procuratorate = new Procuratorate("DongGuangDongGuangDongGuangDongDongGuangDongGuangDongGuangDong");
-		//procuratorateRepository.save(procuratorate);
 		//when+then
 		Assertions.assertThrows(Exception.class,()->procuratorateRepository.save(procuratorate));
 	}
