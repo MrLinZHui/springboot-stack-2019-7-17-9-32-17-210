@@ -42,4 +42,8 @@ public class Procuratorate implements Serializable {
     public void setProsecutors(List<Prosecutor> prosecutors) {
         this.prosecutors = prosecutors;
     }
+
+    public int getProcuratorateId() {
+        return procuratorateId;
+    }
 }

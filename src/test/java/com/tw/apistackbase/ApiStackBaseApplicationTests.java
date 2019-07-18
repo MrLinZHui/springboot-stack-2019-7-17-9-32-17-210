@@ -4,9 +4,12 @@ import com.tw.apistackbase.repository.CaseRepository;
 import com.tw.apistackbase.repository.CaseSpecificInformationRepository;
 import com.tw.apistackbase.repository.ProcuratorateRepository;
 import com.tw.apistackbase.repository.ProsecutorRepository;
-import org.h2.jdbc.JdbcSQLException;
+import org.hibernate.annotations.Synchronize;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,13 @@ public class ApiStackBaseApplicationTests {
 
 	@Autowired
 	ProsecutorRepository prosecutorRepository;
+	@Before
+	public void CleanEach(){
+		caseRepository.deleteAll();
+		caseSpecificInformationRepository.deleteAll();
+		procuratorateRepository.deleteAll();
+		prosecutorRepository.deleteAll();
+	}
 	//todo
 	@Test
 	public void shoule_save_a_case_when_give_a_case(){
@@ -58,9 +68,10 @@ public class ApiStackBaseApplicationTests {
 		Case case1 = new Case(1970010111,"case1",caseSpecificInformation,procuratorate);
 		caseRepository.saveAndFlush(case1);
 		//when
-		Case case2 = caseRepository.findById(1).get();
+		//Case case2 = caseRepository.findById(1).get();
+		Case case2 = caseRepository.findCasesByCaseName("case1").get(0);
 		//then
-		Assertions.assertEquals(1,case2.getCaseId());
+		//Assertions.assertEquals(1,case2.getCaseId());
 		Assertions.assertEquals("case1",case2.getCaseName());
 		Assertions.assertEquals(1970010111,case2.getCaseTime());
 		Assertions.assertEquals("subjec1",case2.getCaseSpecificInformation().getSubjectiveRequirement());
@@ -144,7 +155,8 @@ public class ApiStackBaseApplicationTests {
 				new CaseSpecificInformation("subject3","object3");
 		caseSpecificInformationRepository.saveAll(asList(caseSpecificInformation,caseSpecificInformation1,caseSpecificInformation2));
 		//when
-		CaseSpecificInformation caseSpecificInformation3 = caseSpecificInformationRepository.findById(2).get();
+		CaseSpecificInformation caseSpecificInformation4 = caseSpecificInformationRepository.findBysubjectiveRequirement("subject2");
+		CaseSpecificInformation caseSpecificInformation3 = caseSpecificInformationRepository.findById(caseSpecificInformation4.getCaseSpecificInformationId()).get();
 				//then
 		Assertions.assertEquals("subject2",caseSpecificInformation3.getSubjectiveRequirement());
 		Assertions.assertEquals("object2",caseSpecificInformation3.getObjectiveRequirement());
@@ -181,7 +193,8 @@ public class ApiStackBaseApplicationTests {
 		Procuratorate procuratorate = new Procuratorate("DongGuang4");
 		procuratorateRepository.save(procuratorate);
 		//when
-		Procuratorate procuratorate1 = procuratorateRepository.findById(1).get();
+		Procuratorate procuratorate2 = procuratorateRepository.findByProcuratorateName("DongGuang4");
+		Procuratorate procuratorate1 = procuratorateRepository.findById(procuratorate2.getProcuratorateId()).get();
 		// then
 		Assertions.assertEquals("DongGuang4",procuratorate1.getProcuratorateName());
 	}
@@ -198,7 +211,8 @@ public class ApiStackBaseApplicationTests {
 		Prosecutor prosecutor = new Prosecutor("Tomi");
 		prosecutorRepository.save(prosecutor);
 		//when
-		Prosecutor procuratorate1 = prosecutorRepository.findById(1).get();
+		Prosecutor procuratorate2 = prosecutorRepository.findByProsecutorName("Tomi");
+		Prosecutor procuratorate1 = prosecutorRepository.findById(procuratorate2.getProsecutorId()).get();
 		// then
 		Assertions.assertEquals("Tomi",procuratorate1.getProsecutorName());
 	}
